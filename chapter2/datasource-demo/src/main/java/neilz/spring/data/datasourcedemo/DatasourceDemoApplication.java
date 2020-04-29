@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -20,6 +21,8 @@ public class DatasourceDemoApplication implements CommandLineRunner {
 
 	@Autowired
 	private DataSource dataSource;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DatasourceDemoApplication.class, args);
@@ -28,6 +31,20 @@ public class DatasourceDemoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		showConnection();
+		showData();
+	}
+
+	/**
+	 * 使用的内置H2数据库 连接spring默认的
+	 * SpringBoot会默认加载了类路径下的schema.sql和data.sql脚本。
+	 *
+	 * HikariProxyConnection@1079167170 wrapping conn0: url=jdbc:h2:mem:testdb user=SA
+	 * {ID=1, BAR=aaa}
+	 * {ID=2, BAR=bbb}
+	 *
+	 */
+	private void showData() {
+		jdbcTemplate.queryForList("select * from FOO").forEach(row -> log.info(row.toString()));
 	}
 
 	private void showConnection() throws SQLException {
