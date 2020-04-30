@@ -48,3 +48,39 @@ spring-boot-autoconfigure-2.2.6.RELEASE.jar  包里 jdbc/DataSourceConfiguration
     }
 ```
 
+#### 好用的连接池-Alibaba-Druid
+
+**经过阿里巴巴各大系统的考验，值得信赖**
+
+**实用的功能**
+
+- 详细的监控
+- ExecptionSorter，针对主流数据库的返回码都有支持
+- SQL 防注入
+- 内置加密配置
+- 众多扩展点，方便进行定制
+
+**数据源配置**
+
+**直接配置 DruidDataSource**
+
+**通过 druid-spring-boot-starter**
+
+- spring.datasource.druid.*
+
+引入 druid 注意排除 HikariCP 配置
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jdbc</artifactId>
+    <exclusions>
+        <exclusion>
+            <artifactId>HikariCP</artifactId>
+            <groupId>com.zaxxer</groupId>
+        </exclusion>
+    </exclusions>
+</dependency>
+```
+
+**Druid Filter**
